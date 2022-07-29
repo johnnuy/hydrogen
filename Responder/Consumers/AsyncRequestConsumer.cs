@@ -11,7 +11,10 @@ namespace Hydrogen.Consumers
         {
             LogContext.Info?.Log("Async Request Received: {request}", context.Message.Request);
 
-            ISendEndpoint queue = await context.GetSendEndpoint(new Uri("queue:hydrogen-async-responses"));
+            String responseAddress = context.Headers.Get<String>("ReplyTo");
+            LogContext.Info?.Log("Responding to address {response}", responseAddress);
+
+            ISendEndpoint queue = await context.GetSendEndpoint(new Uri(responseAddress));
 
             if (new Random().NextDouble() > 0.8) {
                 await queue.Send<AsyncResponse>(new()

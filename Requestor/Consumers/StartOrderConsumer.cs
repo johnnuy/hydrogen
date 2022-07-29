@@ -24,6 +24,9 @@ namespace Hydrogen.Consumers
             await queue.Send<AsyncRequest>(new()
             {
                 Request = $"Can I proceed with order {context.Message.OrderNumber}?"
+            }, (cfg) => {
+                /* reply back to our async responses queue when the response is ready */
+                cfg.Headers.Set("ReplyTo", "queue:hydrogen-async-responses");
             });
 
             await context.RespondAsync<OrderStarted>(orderStarted);
