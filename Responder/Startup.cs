@@ -28,7 +28,7 @@ namespace Hydrogen
                 .AddMassTransitForAzureFunctions(cfg =>
                     {
                         cfg.AddConsumer<OrderStartedConsumer>();
-                        cfg.AddConsumer<AsyncRequestConsumer>();
+                        cfg.AddConsumer<AsyncRequestConsumer>();                                                
                     },
                     "ConnectionStrings:AzureWebJobsServiceBus");
         }

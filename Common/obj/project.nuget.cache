@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "P9V1baTlE0z9mZz2U5OgDZM1cMyR02yPL9fpX7JVJMjYuhgX1mS/R/fDiz0JBDo4o1fVEmxAjfFg1p5c+L+6+w==",
+  "dgSpecHash": "vMWb0W7iXtLyV9oc13UomCgWWtLOPo8N1We49xypKgbTzJ2OnjprkzD46fn46RaNHGARALD3pfyQJBaeuva5Cw==",
   "success": true,
   "projectFilePath": "C:\\Users\\jonathan. (538F0089)\\source\\repos\\Hydrogen\\Common\\Common.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\jonathan. (538F0089)\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -12,24 +12,27 @@ using System.Text.Json;
 using Azure.Messaging.ServiceBus;
 using System.Threading;
 using Hydrogen.Consumers;
+using Hydrogen.Common;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Hydrogen
 {
-    public class StartOrderServiceBusFunction
+    public class CancelOrderServiceBusFunction
     {
 
-        const string StartOrderQueueName = "hydrogen-start-order";
+        const string CancelOrderQueueName = "hydrogen-cancel-order";
         readonly IMessageReceiver _receiver;
 
-        public StartOrderServiceBusFunction(IMessageReceiver receiver)
+        public CancelOrderServiceBusFunction(IMessageReceiver receiver)
         {
             _receiver = receiver;
         }
 
-        [FunctionName("StartOrder")]
-        public Task StartOrder([ServiceBusTrigger(StartOrderQueueName)] ServiceBusReceivedMessage message, CancellationToken cancellationToken, ILogger log)
+        [FunctionName("CancelOrder")]
+        public Task CancelOrder([ServiceBusTrigger(CancelOrderQueueName)] ServiceBusReceivedMessage message, CancellationToken cancellationToken, ILogger log)
         {            
-            return _receiver.HandleConsumer<StartOrderConsumer>(StartOrderQueueName, message, cancellationToken);
+            return _receiver.HandleConsumer<CancelOrderConsumer>(CancelOrderQueueName, message, cancellationToken);
         }
     }
 }

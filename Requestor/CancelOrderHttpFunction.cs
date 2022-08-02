@@ -13,31 +13,31 @@ using Hydrogen.Common;
 
 namespace Hydrogen
 {
-    public class StartOrderHttpFunction
+    public class CancelOrderHttpFunction
     {
 
         readonly IAsyncBusHandle _handle;
-        readonly IRequestClient<StartOrder> _client;
+        readonly IRequestClient<CancelOrder> _client;
 
-        public StartOrderHttpFunction(IAsyncBusHandle handle, IRequestClient<StartOrder> client)
+        public CancelOrderHttpFunction(IAsyncBusHandle handle, IRequestClient<CancelOrder> client)
         {
             _handle = handle;
             _client = client;
         }
 
 
-        [FunctionName("StartOrderHttp")]
-        public async Task<IActionResult> StartOrder([HttpTrigger(AuthorizationLevel.Function, "post", Route = "start")] HttpRequest request, ILogger log)
+        [FunctionName("CancelOrderHttp")]
+        public async Task<IActionResult> CancelOrder([HttpTrigger(AuthorizationLevel.Function, "post", Route = "cancel")] HttpRequest request, ILogger log)
         {            
-            log.LogInformation("StartOrder invoked via HTTP Trigger");
+            log.LogInformation("CancelOrder invoked via HTTP Trigger");
             var body = await request.ReadAsStringAsync();
-            var order = JsonSerializer.Deserialize<StartOrder>(body, SystemTextJsonMessageSerializer.Options);
+            var order = JsonSerializer.Deserialize<CancelOrder>(body, SystemTextJsonMessageSerializer.Options);
             if (order == null)
             {
                 return new BadRequestResult();
             }
 
-            var response = await _client.GetResponse<OrderStarted>(order);
+            var response = await _client.GetResponse<OrderCancelled>(order);
 
             return new OkObjectResult(new
             {

@@ -14,22 +14,27 @@ namespace Hydrogen
 {
     public class Startup : FunctionsStartup
     {
-        public override void Configure(IFunctionsHostBuilder builder)
+        public override async void Configure(IFunctionsHostBuilder builder)
         {
             var config = new ConfigurationBuilder()
                 .AddUserSecrets(Assembly.GetExecutingAssembly(), false)
                 .AddEnvironmentVariables()
                 .Build();
 
-            builder.Services
+            IServiceCollection services = builder.Services
                 .AddSingleton<IConfiguration>(config)
                 .AddScoped<StartOrderHttpFunction>()
-                .AddScoped<StartOrderServiceBusFunction>()                
+                .AddScoped<StartOrderServiceBusFunction>()
+                .AddScoped<CancelOrderHttpFunction>()
+                .AddScoped<CancelOrderServiceBusFunction>()
                 .AddMassTransitForAzureFunctions(cfg =>
                     {
+                        //cfg.AddConsumersFromNamespaceContaining<ConsumerNamespace>();
                         cfg.AddConsumer<StartOrderConsumer>();
+                        cfg.AddConsumer<CancelOrderConsumer>();
                         cfg.AddConsumer<AsyncResponseConsumer>();
                         cfg.AddRequestClient<StartOrder>(new Uri("queue:hydrogen-start-order"));
+                        cfg.AddRequestClient<CancelOrder>(new Uri("queue:hydrogen-cancel-order"));                       
                     },
                     "ConnectionStrings:AzureWebJobsServiceBus");
         }
